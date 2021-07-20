@@ -1,8 +1,34 @@
+@import 'fonts/fonts.css';
 .main_container{
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
+  max-width: 800px;
+  margin: 0 auto;
 }
 .task_form {
   display: flex;
   flex-direction:column;
+  margin-bottom: 30px;
+}
+.task{
+  border-radius: 5px;
+  padding: 20px;
+  color:black;
+  background: linear-gradient(to right, rgba(0, 179, 219, 0.3), rgba(0, 132, 176, 0.3));
+}
+.task_label{
+  display: block;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.082);
+  color:rgba(0, 0, 0, 0.5);
+}
+.task_field{
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+.task_field:not(:last-of-type){
+  margin-bottom: 20px;
+}
+.task:not(:last-of-type){
+  margin-bottom: 10px;
 }

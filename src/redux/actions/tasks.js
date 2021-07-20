@@ -1,19 +1,26 @@
 import axios from 'axios';
 
-export const fetchPizzas = (sortBy, category) => (dispatch) => {
-  dispatch(setLoaded((false)));
-  axios.get(`/pizzas?${category > 0 ? `category=${category}&` : ''}_sort=${sortBy}&_order=${sortBy === 'name' ? 1 : -1}`).then(({
-    data
-  }) => dispatch(setPizzas(data.data)));
+export const fetchTasks = (sortField, sortDirection) => (dispatch) => {
+  dispatch(setLoading(true));
+  axios
+    .get(`/?developer=konstantin&sortField=${sortField}&sortDirection=${sortDirection}`)
+    .then(({ data }) =>
+      dispatch(
+        setTasks({
+          items: data.message.tasks,
+          totalTaskCount: data.message.total_task_count,
+        }),
+      ),
+    );
+  dispatch(setLoading(false));
 };
 
-
-export const setPizzas = (items) => ({
-  type: 'SET_PIZZAS',
-  value: items,
+export const setTasks = (value) => ({
+  type: 'SET_TASKS',
+  value,
 });
 
-export const setLoaded = (value) => ({
-  type: 'SET_LOADED',
+export const setLoading = (value) => ({
+  type: 'SET_LOADING',
   value,
 });
