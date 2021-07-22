@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchTasks } from '../redux/actions/tasks.js';
 
-import { Modal, Pagination, SortPanel, Task, TaskForm } from '../components';
+import { Pagination, SortPanel, Task, TaskForm } from '../components';
 import Skeleton from 'react-loading-skeleton';
 
 const Box = ({ children }) => (
@@ -19,8 +19,6 @@ function Home() {
   const { items, sortField, sortDirection, currentPage, isLoading } = useSelector(
     ({ tasks }) => tasks,
   );
-
-  const [modalActive, setModalActive] = useState(true);
 
   useEffect(() => {
     dispatch(fetchTasks(sortField, sortDirection, currentPage));
@@ -44,7 +42,6 @@ function Home() {
         )}
       </div>
       <Pagination />
-      <Modal active={activeModal} setActive={setModalActive} />
     </div>
   );
 }

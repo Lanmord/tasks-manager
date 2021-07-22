@@ -4,6 +4,7 @@ import { fetchTasks } from '../redux/actions/tasks';
 import { useSelector, useDispatch } from 'react-redux';
 import { LoopCircleLoading } from 'react-loadingg';
 import { useState } from 'react';
+import Modal from './Modal';
 
 function errorStyle(errors, fieldName) {
   if (getIn(errors, fieldName)) {
@@ -17,6 +18,8 @@ const TaskForm = () => {
   const dispatch = useDispatch();
   const { sortField, sortDirection, currentPage } = useSelector(({ tasks }) => tasks);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [modalActive, setModalActive] = useState(false);
   return (
     <div className="form_wrapper">
       <h2>Создать задачу</h2>
@@ -49,6 +52,7 @@ const TaskForm = () => {
           axios.post('/create?developer=konstantin', taskFormData).then(() => {
             dispatch(fetchTasks(sortField, sortDirection, currentPage));
             setIsLoading(false);
+            setModalActive(true);
           });
 
           setSubmitting(false);
@@ -87,6 +91,12 @@ const TaskForm = () => {
       <div className={isLoading ? 'form_loading active' : 'form_loading'}>
         <LoopCircleLoading />
       </div>
+      <Modal active={modalActive} setActive={setModalActive}>
+        <h2>Задача успешно создана! ✔️</h2>
+        <button className="btn" onClick={() => setModalActive(false)}>
+          ОК
+        </button>
+      </Modal>
     </div>
   );
 };

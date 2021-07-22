@@ -1,9 +1,11 @@
 import React from 'react';
 
-function Modal({ active, setActive }) {
+function Modal({ active, setActive, children }) {
   return (
-    <div className="modal">
-      <div className="modal_content"></div>
+    <div className={active ? 'modal active' : 'modal'} onClick={() => setActive(false)}>
+      <div className="modal_content" onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>
   );
 }

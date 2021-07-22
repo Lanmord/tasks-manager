@@ -56,7 +56,7 @@ function SortPanel() {
       </div>
       <i
         onClick={() => selectSortDirection()}
-        class={
+        className={
           sortDirection
             ? 'lnr lnr-chevron-down sort_direction'
             : 'lnr lnr-chevron-up sort_direction'

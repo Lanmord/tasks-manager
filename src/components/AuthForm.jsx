@@ -4,6 +4,7 @@ import { fetchTasks } from '../redux/actions/tasks';
 import { useSelector, useDispatch } from 'react-redux';
 import { LoopCircleLoading } from 'react-loadingg';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function errorStyle(errors, fieldName) {
   if (getIn(errors, fieldName)) {
@@ -15,6 +16,7 @@ function errorStyle(errors, fieldName) {
 
 const AuthForm = () => {
   const dispatch = useDispatch();
+  let history = useHistory();
   const { sortField, sortDirection, currentPage } = useSelector(({ tasks }) => tasks);
   const [isLoading, setIsLoading] = useState(false);
   return (
@@ -33,17 +35,20 @@ const AuthForm = () => {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, setFieldError }) => {
           setIsLoading(true);
 
-          let taskFormData = new FormData();
-          taskFormData.set('email', values.email);
-          taskFormData.set('username', values.username);
-          taskFormData.set('text', values.taskText);
-          taskFormData.set('status', 0);
+          let loginFormData = new FormData();
+          loginFormData.set('username', values.username);
+          loginFormData.set('password', values.password);
 
-          axios.post('/create?developer=konstantin', taskFormData).then(() => {
-            dispatch(fetchTasks(sortField, sortDirection, currentPage));
+          axios.post('/login?developer=konstantin', loginFormData).then(({ data }) => {
+            if (data.status === 'error') {
+              setFieldError('password', 'Неверный логин или пароль');
+            } else {
+              localStorage.setItem('token', data.message.token);
+              history.push('/');
+            }
             setIsLoading(false);
           });
 
@@ -62,7 +67,6 @@ const AuthForm = () => {
               <Field style={errorStyle(errors, 'password')} type="password" name="password" />
               <ErrorMessage name="password" component="div" className="form_error" />
             </div>
-
             <button type="submit" disabled={isSubmitting} className="btn">
               Войти
             </button>

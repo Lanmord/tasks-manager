@@ -7,7 +7,7 @@ const initialState = {
   itemsPerPage: 3,
   totalTaskCount: 0,
   sortField: 'id',
-  sortDirection: 'desc',
+  sortDirection: 'asc',
 };
 
 function tasks(state = initialState, action) {
