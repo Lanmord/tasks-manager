@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { setAuthStatus } from '../redux/actions/auth';
 function Header() {
   const location = useLocation();
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(({ auth }) => auth);
+
   const logOut = () => {
-    history.push('/');
     localStorage.removeItem('token');
+    dispatch(setAuthStatus(false));
   };
   return (
     <header>
@@ -13,7 +17,7 @@ function Header() {
         <h1>TASK-MANAGER</h1>
       </Link>
       {location.pathname !== '/login' ? (
-        localStorage.getItem('token') ? (
+        isAuthenticated ? (
           <button onClick={() => logOut()} className="btn">
             Выйти
           </button>

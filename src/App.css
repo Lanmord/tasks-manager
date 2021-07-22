@@ -252,3 +252,22 @@ header{
     transform: scale(0);
     transition: .2s;
 }
+.btn-change{
+  margin-top: 20px;
+}
+.radio{
+  display: flex;
+  flex-direction:column;
+  width: fit-content;
+}
+.radio input{
+  margin-right: 10px;
+}
+.compare_btn button:first-of-type{
+  margin-right: 10px;
+}
+.compare_btn button:last-of-type{
+  background-color: unset;
+  color: black;
+  border: 1px solid #2d6cdf;
+}

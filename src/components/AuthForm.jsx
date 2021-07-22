@@ -1,10 +1,10 @@
 import { Formik, Form, Field, ErrorMessage, getIn } from 'formik';
 import axios from 'axios';
-import { fetchTasks } from '../redux/actions/tasks';
-import { useSelector, useDispatch } from 'react-redux';
 import { LoopCircleLoading } from 'react-loadingg';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { setAuthStatus } from '../redux/actions/auth';
+import { useDispatch } from 'react-redux';
 
 function errorStyle(errors, fieldName) {
   if (getIn(errors, fieldName)) {
@@ -15,9 +15,8 @@ function errorStyle(errors, fieldName) {
 }
 
 const AuthForm = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
-  let history = useHistory();
-  const { sortField, sortDirection, currentPage } = useSelector(({ tasks }) => tasks);
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="form_wrapper">
@@ -47,6 +46,7 @@ const AuthForm = () => {
               setFieldError('password', 'Неверный логин или пароль');
             } else {
               localStorage.setItem('token', data.message.token);
+              dispatch(setAuthStatus(true));
               history.push('/');
             }
             setIsLoading(false);
